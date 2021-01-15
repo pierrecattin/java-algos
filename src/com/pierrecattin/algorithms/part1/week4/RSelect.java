@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import com.pierrecattin.algorithms.part1.week3.Partition;
+
 public class RSelect {
 
 	public static int select(ArrayList<Integer> A, int order, int l, int r) {

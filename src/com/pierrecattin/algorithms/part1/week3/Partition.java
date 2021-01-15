@@ -1,9 +1,9 @@
-package com.pierrecattin.algorithms.part1.week4;
+package com.pierrecattin.algorithms.part1.week3;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Partition {
+public class Partition {	
 	public static int part(ArrayList<Integer> A, int l, int r) {
 		int pivot = A.get(l);
 		int i = l+1; // i will be the first element that is greater than pivot
@@ -18,4 +18,5 @@ public class Partition {
 
 		return(i-1); // return pivot position
 	}
+
 }
