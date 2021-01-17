@@ -34,4 +34,22 @@ public class InputReader {
 		return(inputList);
 
 	}
+	
+	public Graph graphReader(String path){
+		
+		try {
+			File inputFile = new File(path);
+			Scanner myReader = new Scanner(inputFile);
+			while (myReader.hasNextInt()) {
+				inputList.add(myReader.nextInt());
+
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+		return(inputList);
+
+	}
 }

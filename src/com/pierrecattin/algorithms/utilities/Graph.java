@@ -1,29 +1,30 @@
 package com.pierrecattin.algorithms.utilities;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Graph {
 	private int nbNodes; 
 	private boolean directed;
-	private LinkedList<Integer> edges[]; // each node has its LinkedList, containing the vertices it's connected to
+	private ArrayList<ArrayList<Integer>> edges; // each node has its ArrayList, containing the vertices it's connected to
 	
 	public Graph(int nbNodes, boolean directed) {
-		this.nbNodes=nbNodes;
+		this.nbNodes = nbNodes;
 		this.directed = directed;
-		
-		edges = new LinkedList[nbNodes];
-		
+		this.edges = new ArrayList();
 		for(int i=0; i<nbNodes; i++) {
-			edges[i] = new LinkedList<>();
+			edges.add(new ArrayList<Integer>());
 		}
 	}
 	
 	public void addEdge(int source, int destination) {
-		edges[source].addFirst(destination);
+		edges.get(source).add(destination);
 		
 		if(!directed) {
-			edges[destination].addFirst(source);
+			edges.get(destination).add(source);
 		}
+	}
+	
+	public void removeEdge(int source, int destination) {
 	}
 	
 	
@@ -39,8 +40,8 @@ public class Graph {
 			out += "\n";
 			out += "Node "+i + " is connected to: ";
 			
-			for(int j=0; j<edges[i].size(); j++) {
-				out += edges[i].get(j)+"; ";	
+			for(int j=0; j<edges.get(i).size(); j++) {
+				out += edges.get(i).get(j)+"; ";	
 			}
 		}
 		return(out);
