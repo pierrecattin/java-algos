@@ -3,17 +3,17 @@ package com.pierrecattin.algorithms.utilities;
 import java.util.LinkedList;
 
 public class Graph {
-	private int nbVertex; 
+	private int nbNodes; 
 	private boolean directed;
-	private LinkedList<Integer> edges[]; // each vertex has its LinkedList, containing the vertices it's connected to
+	private LinkedList<Integer> edges[]; // each node has its LinkedList, containing the vertices it's connected to
 	
-	public Graph(int nbVertex, boolean directed) {
-		this.nbVertex=nbVertex;
+	public Graph(int nbNodes, boolean directed) {
+		this.nbNodes=nbNodes;
 		this.directed = directed;
 		
-		edges = new LinkedList[nbVertex];
+		edges = new LinkedList[nbNodes];
 		
-		for(int i=0; i<nbVertex; i++) {
+		for(int i=0; i<nbNodes; i++) {
 			edges[i] = new LinkedList<>();
 		}
 	}
@@ -26,6 +26,7 @@ public class Graph {
 		}
 	}
 	
+	
 	public String toString() {
 		String out ="";
 		if(directed) {
@@ -33,10 +34,10 @@ public class Graph {
 		} else {
 			out += "Undirected graph";
 		}
-		out += " with " + nbVertex + " vertices";
-		for (int i=0; i<nbVertex; i++) {
+		out += " with " + nbNodes + " nodes";
+		for (int i=0; i<nbNodes; i++) {
 			out += "\n";
-			out += "Vertex "+i + " is connected to: ";
+			out += "Node "+i + " is connected to: ";
 			
 			for(int j=0; j<edges[i].size(); j++) {
 				out += edges[i].get(j)+"; ";	
