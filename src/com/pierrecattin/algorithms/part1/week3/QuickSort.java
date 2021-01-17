@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import com.pierrecattin.algorithms.part1.week4.RSelect;
+
 
 public class QuickSort {
 	public enum Method{
@@ -40,9 +42,13 @@ public class QuickSort {
 		} else if(method==Method.MEDIANOFTHREE) {
 			//System.out.println(A);
 			//System.out.println("l="+l+"   ; r="+r + "    ;l+((r-l)/2)="+ (l+((r-l)/2)));
-			
-			int[] three= {A.get(l), A.get(r), A.get(l+((r-l)/2))};
-			int med = median(three);
+		
+			ArrayList<Integer> three=new ArrayList<Integer>();
+			three.add(A.get(l));
+			three.add(A.get(r));
+			three.add(A.get(l+((r-l)/2)));
+				
+			int med = RSelect.select(three, 1, 0,2); 
 			//System.out.println("median="+med);
 			//System.out.println("index="+A.indexOf(med));
 			return(A.indexOf(med));
@@ -51,13 +57,6 @@ public class QuickSort {
 			return (l+rand.nextInt(r-l));	
 		}
 		return(l);
-	}
-	
-	private static int median(int[] m) {
-		Arrays.sort(m);
-		//System.out.println(m[0]+"; "+m[1]+"; "+m[2]);
-	    int middle = m.length/2;
-	    return(m[middle]);
 	}
 
 }
