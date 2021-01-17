@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import com.pierrecattin.algorithms.utilities.*;
 
-public class Main {
+public class RSelectTester {
 
 	public static void main(String[] args) {
 		InputReader reader = new InputReader();
