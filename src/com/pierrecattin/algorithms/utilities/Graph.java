@@ -7,10 +7,20 @@ public class Graph {
 	private boolean directed;
 	private ArrayList<ArrayList<Integer>> edges; // each node has its ArrayList, containing the vertices it's connected to
 	
-	public Graph(int nbNodes, boolean directed) {
-		this.nbNodes = nbNodes;
+	
+	public Graph(boolean directed) {
+		this.nbNodes = 0;
 		this.directed = directed;
 		this.edges = new ArrayList();
+	}
+	
+	public Graph(int nbNodes, boolean directed) {
+		this(directed);
+		addNodes(nbNodes);
+	}
+	
+	public void addNodes(int nbNodes) {
+		this.nbNodes += nbNodes;
 		for(int i=0; i<nbNodes; i++) {
 			edges.add(new ArrayList<Integer>());
 		}
@@ -44,7 +54,7 @@ public class Graph {
 		out += " with " + nbNodes + " nodes";
 		for (int i=0; i<nbNodes; i++) {
 			out += "\n";
-			out += "Node "+i + " is connected to: ";
+			out += "Node "+i + " has edge towards: ";
 			
 			for(int j=0; j<edges.get(i).size(); j++) {
 				out += edges.get(i).get(j)+"; ";	
