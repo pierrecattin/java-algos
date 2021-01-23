@@ -24,7 +24,13 @@ public class Graph {
 		}
 	}
 	
-	public void removeEdge(int source, int destination) {
+	public void removeEdge(Integer source, Integer destination) {
+		//System.out.println(edges.get(source));//
+		edges.get(source).remove(destination);
+		
+		if(!directed) {
+			edges.get(destination).remove(source);
+		}
 	}
 	
 	
