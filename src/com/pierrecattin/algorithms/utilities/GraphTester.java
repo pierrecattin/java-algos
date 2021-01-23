@@ -2,18 +2,14 @@ package com.pierrecattin.algorithms.utilities;
 
 public class GraphTester {
 	public static void main(String[] args) {
-		Graph graph=new Graph(false);
-		graph.addNodes(3);
-		graph.addEdge(0, 2);
-		graph.addNodes(2);
-		graph.addEdge(0, 3);
-		graph.addEdge(1, 3);
-		graph.addEdge(2, 3);
-		graph.addEdge(2, 2);
-		graph.addEdge(2, 0);
-		graph.addEdge(3, 4);
+		Graph graph=new Graph(true);
+		Node a = new Node("A");
+		Node b = new Node("B");
+		Node c = new Node("C");
 		
-		graph.removeEdge(2, 2);
+		graph.addEdge(a, c);
+		graph.addEdge(a, b);
+		graph.addEdge(c, b);
 		System.out.println(graph);
 	}
 }

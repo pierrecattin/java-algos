@@ -36,12 +36,12 @@ public class InputReader {
 	}
 	
 	public Graph graphReader(String path){
-		
+		Graph graph = new Graph(false);
 		try {
 			File inputFile = new File(path);
 			Scanner myReader = new Scanner(inputFile);
-			while (myReader.hasNextInt()) {
-				inputList.add(myReader.nextInt());
+			while (myReader.hasNextLine()) {
+				graph.addNodes(0);
 
 			}
 			myReader.close();
@@ -49,7 +49,6 @@ public class InputReader {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		return(inputList);
-
+		return(graph);
 	}
 }

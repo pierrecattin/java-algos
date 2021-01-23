@@ -1,46 +1,56 @@
 package com.pierrecattin.algorithms.utilities;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
-public class Graph {
-	private int nbNodes; 
+public class Graph { 
 	private boolean directed;
-	private ArrayList<ArrayList<Integer>> edges; // each node has its ArrayList, containing the vertices it's connected to
+	private HashMap<Node, LinkedList<Node>> adjacencyMap; // each node has its LinkedList, containing the nodes it's connected to
 	
 	
 	public Graph(boolean directed) {
-		this.nbNodes = 0;
 		this.directed = directed;
-		this.edges = new ArrayList();
-	}
-	
-	public Graph(int nbNodes, boolean directed) {
-		this(directed);
-		addNodes(nbNodes);
-	}
-	
-	public void addNodes(int nbNodes) {
-		this.nbNodes += nbNodes;
-		for(int i=0; i<nbNodes; i++) {
-			edges.add(new ArrayList<Integer>());
+		adjacencyMap = new HashMap<>();
 		}
+	
+	public void addEdgeHelper(Node source, Node destination) {
+		LinkedList<Node> edgesOfSource = adjacencyMap.get(source);
+		if(edgesOfSource != null) {
+			edgesOfSource.remove(destination); // remove edge if it exists (no parallel edges support)
+		} else {
+			// if source has no LinkedList yet, it needs to be created
+			edgesOfSource = new LinkedList<>();
+		}
+		edgesOfSource.add(destination); // add node to LinkedList
+		adjacencyMap.put(source, edgesOfSource); // add LinkedList to adjacencyMap
 	}
 	
-	public void addEdge(int source, int destination) {
-		edges.get(source).add(destination);
+	public void addEdge(Node source, Node destination) {
+		// Create Nodes if they don't exist
+		addNode(source);
+		addNode(destination);
 		
+		addEdgeHelper(source, destination);
 		if(!directed) {
-			edges.get(destination).add(source);
+			addEdgeHelper(destination, source);
 		}
 	}
 	
-	public void removeEdge(Integer source, Integer destination) {
-		//System.out.println(edges.get(source));//
-		edges.get(source).remove(destination);
-		
-		if(!directed) {
-			edges.get(destination).remove(source);
+	
+	public void addNode(Node node) {
+		if(!adjacencyMap.containsKey(node)) {
+			adjacencyMap.put(node, null);
 		}
+	}
+	
+	public boolean hasEdge(Node source, Node destination) {
+		if(!adjacencyMap.containsKey(source)) {
+			return(false);
+		}
+		if(!adjacencyMap.containsKey(destination)) {
+			return(false);
+		}
+		return(adjacencyMap.get(source).contains(destination));
 	}
 	
 	
@@ -51,13 +61,15 @@ public class Graph {
 		} else {
 			out += "Undirected graph";
 		}
-		out += " with " + nbNodes + " nodes";
-		for (int i=0; i<nbNodes; i++) {
+		out += " with " + adjacencyMap.size() + " nodes";
+		
+		for(Node source : adjacencyMap.keySet()) {
 			out += "\n";
-			out += "Node "+i + " has edge towards: ";
-			
-			for(int j=0; j<edges.get(i).size(); j++) {
-				out += edges.get(i).get(j)+"; ";	
+			out += "Node "+source + " has edge towards: ";
+			if(adjacencyMap.get(source)!=null) {
+				for(Node destination : adjacencyMap.get(source)) {
+					out += destination+"; ";	
+				}
 			}
 		}
 		return(out);
