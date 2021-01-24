@@ -15,9 +15,7 @@ public class Graph {
 	
 	public void addEdgeHelper(Node source, Node destination) {
 		LinkedList<Node> edgesOfSource = adjacencyMap.get(source);
-		if(edgesOfSource != null) {
-			edgesOfSource.remove(destination); // remove edge if it exists (no parallel edges support)
-		} else {
+		if(edgesOfSource == null) {
 			// if source has no LinkedList yet, it needs to be created
 			edgesOfSource = new LinkedList<>();
 		}
