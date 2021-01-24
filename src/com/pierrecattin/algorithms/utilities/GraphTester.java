@@ -11,5 +11,6 @@ public class GraphTester {
 		graph.addEdge(a, b);
 		graph.addEdge(c, b);
 		System.out.println(graph);
+		
 	}
 }

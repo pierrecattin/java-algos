@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class Graph { 
 	private boolean directed;
-	private HashMap<Node, LinkedList<Node>> adjacencyMap; // each node has its LinkedList, containing the nodes it's connected to
+	private HashMap<Node, LinkedList<Node>> adjacencyMap; // each node is associated to a LinkedList, containing the nodes it's connected to
 	
 	
 	public Graph(boolean directed) {
@@ -25,6 +25,7 @@ public class Graph {
 		adjacencyMap.put(source, edgesOfSource); // add LinkedList to adjacencyMap
 	}
 	
+	
 	public void addEdge(Node source, Node destination) {
 		// Create Nodes if they don't exist
 		addNode(source);
@@ -42,15 +43,12 @@ public class Graph {
 			adjacencyMap.put(node, null);
 		}
 	}
+	public boolean hasNode(Node node) {
+		return(adjacencyMap.containsKey(node));
+	}
 	
 	public boolean hasEdge(Node source, Node destination) {
-		if(!adjacencyMap.containsKey(source)) {
-			return(false);
-		}
-		if(!adjacencyMap.containsKey(destination)) {
-			return(false);
-		}
-		return(adjacencyMap.get(source).contains(destination));
+		return(hasNode(source) && hasNode(destination) && adjacencyMap.get(source).contains(destination));
 	}
 	
 	
