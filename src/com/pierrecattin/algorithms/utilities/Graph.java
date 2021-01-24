@@ -13,6 +13,11 @@ public class Graph {
 		adjacencyMap = new HashMap<>();
 		}
 	
+	public Graph(Graph other) {
+		this.directed = other.directed;
+		this.adjacencyMap = new HashMap<>(other.adjacencyMap);
+	}
+	
 	private void addEdgeHelper(Node source, Node destination) {
 		LinkedList<Node> edgesOfSource = adjacencyMap.get(source);
 		if(edgesOfSource == null) {
