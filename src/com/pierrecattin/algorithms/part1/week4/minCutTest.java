@@ -14,8 +14,8 @@ public class MinCutTest {
 	public static void main(String[] args) {
 		InputReader reader = new InputReader();
 		Graph graph = reader.readGraph("res/kargerMinCut.txt", false);
-		System.out.println(graph);
-		//System.out.println(MinCut.minCut(graph));
+		//System.out.println(graph);
+		System.out.println(MinCut.minCut(graph));
 	}
 	
 	@Test
