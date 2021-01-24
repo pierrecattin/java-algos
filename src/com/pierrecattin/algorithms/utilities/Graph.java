@@ -67,6 +67,9 @@ public class Graph {
 		return(hasNode(source) && hasNode(destination) && adjacencyMap.get(source).contains(destination));
 	}
 	
+	protected HashMap<Node, LinkedList<Node>> getAdjacencyMap(){
+		return(adjacencyMap);
+	}
 	
 	
 	public String toString() {
