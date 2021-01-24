@@ -1,5 +1,6 @@
 package com.pierrecattin.algorithms.utilities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -15,7 +16,22 @@ public class Graph {
 	
 	public Graph(Graph other) {
 		this.directed = other.directed;
-		this.adjacencyMap = new HashMap<>(other.adjacencyMap);
+		// Create deep copy of adjacencyMap (create copies of Nodes)
+	
+		// Create mapping from nodes of original to nodes of copies
+		HashMap<Node, Node> nodesMapping = new HashMap<>();
+		for(Node sourceNode: other.adjacencyMap.keySet()) {
+			nodesMapping.put(sourceNode, new Node(sourceNode));
+		}
+		
+		// Populate adjacency map of copy
+		this.adjacencyMap = new HashMap<>();	
+		for(Node sourceNode: other.adjacencyMap.keySet()) {
+			this.adjacencyMap.put(nodesMapping.get(sourceNode), new LinkedList<Node>());
+			for(Node destinationNode : other.adjacencyMap.get(sourceNode)) {
+				this.adjacencyMap.get(nodesMapping.get(sourceNode)).add(nodesMapping.get(destinationNode));
+			}
+		}
 	}
 	
 	private void addEdgeHelper(Node source, Node destination) {
@@ -70,6 +86,18 @@ public class Graph {
 	
 	public boolean hasEdge(Node source, Node destination) {
 		return(hasNode(source) && hasNode(destination) && adjacencyMap.get(source).contains(destination));
+	}
+	
+	public int nbNodes() {
+		return(adjacencyMap.size());
+	}
+	
+	public LinkedList<Node> getEdgesFrom(Node node){
+		return(adjacencyMap.get(node));
+	}
+	
+	public ArrayList<Node> getNodes(){
+		return(new ArrayList<Node>(adjacencyMap.keySet()));
 	}
 	
 	protected HashMap<Node, LinkedList<Node>> getAdjacencyMap(){

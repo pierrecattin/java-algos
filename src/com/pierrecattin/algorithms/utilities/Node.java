@@ -7,6 +7,10 @@ public class Node {
 		this.name=name;
 	}
 	
+	public Node(Node other){
+		this.name=other.getName();
+	}
+	
 	public void setName(String name) {
 		this.name=name;
 	}

@@ -1,6 +1,5 @@
 package com.pierrecattin.algorithms.part1.week4;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.pierrecattin.algorithms.utilities.Graph;
@@ -11,13 +10,17 @@ public class MergeableGraph extends Graph {
 		super(directed); 
 	}
 	
+	public MergeableGraph(Graph graph) {
+		super(graph); 
+	}
+	
 	public void mergeNodes(Node a, Node b) {
 		if(hasNode(a) && hasNode(b)) {
 			a.setName(a.getName()+"+"+b.getName()); // concatenate node names
 			
 			// add edges starting from B to edges starting from A
-			LinkedList<Node> edgesFromA = getAdjacencyMap().get(a);
-			LinkedList<Node> edgesFromB = getAdjacencyMap().get(b);		
+			LinkedList<Node> edgesFromA = getEdgesFrom(a);
+			LinkedList<Node> edgesFromB = getEdgesFrom(b);		
 			
 			for(Node nodeAccesibleFromB : edgesFromB) {
 				if(!nodeAccesibleFromB.equals(a)) { // don't add loops
