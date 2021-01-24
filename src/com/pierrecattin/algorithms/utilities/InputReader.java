@@ -64,7 +64,9 @@ public class InputReader {
 						destinationNode = new Node(destinationNodeName);
 						nodeNames.put(destinationNodeName, destinationNode);
 					}
-					graph.addEdge(sourceNode, destinationNode);
+					if(directed || !graph.hasEdge(sourceNode, destinationNode)) {
+						graph.addEdge(sourceNode, destinationNode);
+					}
 				}
 				colReader.close();
 			}
