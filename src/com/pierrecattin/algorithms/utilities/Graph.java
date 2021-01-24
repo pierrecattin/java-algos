@@ -13,7 +13,7 @@ public class Graph {
 		adjacencyMap = new HashMap<>();
 		}
 	
-	public void addEdgeHelper(Node source, Node destination) {
+	private void addEdgeHelper(Node source, Node destination) {
 		LinkedList<Node> edgesOfSource = adjacencyMap.get(source);
 		if(edgesOfSource == null) {
 			// if source has no LinkedList yet, it needs to be created
@@ -35,6 +35,24 @@ public class Graph {
 		}
 	}
 	
+	private void removeEdgeHelper(Node source, Node destination) {
+		LinkedList<Node> edgesOfSource = adjacencyMap.get(source);
+		if(edgesOfSource != null) {
+			if(adjacencyMap.get(source).contains(destination)) {
+				adjacencyMap.get(source).remove(destination);
+			}
+		}
+	}
+	
+	
+	public void removeEdge(Node source, Node destination) {
+		if(hasNode(source) && hasNode(destination)) {
+			removeEdgeHelper(source, destination);
+			if(!directed) {
+				removeEdgeHelper(destination, source);
+			}
+		}
+	}
 	
 	public void addNode(Node node) {
 		if(!adjacencyMap.containsKey(node)) {
@@ -48,6 +66,7 @@ public class Graph {
 	public boolean hasEdge(Node source, Node destination) {
 		return(hasNode(source) && hasNode(destination) && adjacencyMap.get(source).contains(destination));
 	}
+	
 	
 	
 	public String toString() {
