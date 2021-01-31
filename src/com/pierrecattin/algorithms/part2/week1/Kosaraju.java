@@ -44,11 +44,14 @@ public class Kosaraju {
 		Graph revertedGraph = new Graph(true);
 		
 		for(Node sourceNode:graph.getNodes()) {
-			for (Node destinationNode:graph.getEdgesFrom(sourceNode)) {
-				revertedGraph.addEdge(destinationNode, sourceNode);
+			if(graph.getEdgesFrom(sourceNode)!=null) {
+				for (Node destinationNode:graph.getEdgesFrom(sourceNode)) {
+					revertedGraph.addEdge(destinationNode, sourceNode);
+				}
 			}
 		}
 		
 		return(revertedGraph);
 	}
+	
 }
