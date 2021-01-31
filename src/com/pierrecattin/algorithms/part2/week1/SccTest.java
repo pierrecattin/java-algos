@@ -7,6 +7,6 @@ public class SccTest {
 	public static void main(String[] args) {		
 		Graph graph = InputReader.readGraph("res/SCC_figure_8.16.txt", true);
 		System.out.println(graph);
-		System.out.println(TopoSort.topologicalOrdering(graph));
+		System.out.println(TopoSort.topologicalOrdering(Kosaraju.revertedGraph(graph)));
 	}
 }
