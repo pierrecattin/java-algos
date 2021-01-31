@@ -31,10 +31,12 @@ public class Kosaraju {
 	public static void DFSSCC(Graph graph, Node s, 	Map<Node, Integer> SCCMapping, Set<Node> exploredNodes, int numSCC) {
 		exploredNodes.add(s);
 		SCCMapping.put(s, numSCC);
-		for (Node v : graph.getEdgesFrom(s)) {
-			if(!exploredNodes.contains(v)) {
-				DFSSCC(graph, v, SCCMapping, exploredNodes, numSCC);
-			}
+		if(graph.getEdgesFrom(s) != null) {
+			for (Node v : graph.getEdgesFrom(s)) {
+				if(!exploredNodes.contains(v)) {
+					DFSSCC(graph, v, SCCMapping, exploredNodes, numSCC);
+				}
+			}	
 		}
 	}
 

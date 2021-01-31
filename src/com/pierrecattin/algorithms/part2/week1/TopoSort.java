@@ -12,9 +12,11 @@ public class TopoSort {
 		 Map<Node, Integer> ordering = new LinkedHashMap<Node, Integer>();
 		 Set<Node> exploredNodes = new HashSet<Node>();
 		int curLabel = graph.nbNodes();
-		for(Node v : graph.getNodes()) {
-			if(!exploredNodes.contains(v)) {
-				curLabel = DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+		if(graph.getNodes() != null) {
+			for(Node v : graph.getNodes()) {
+				if(!exploredNodes.contains(v)) {
+					curLabel = DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+				}
 			}
 		}
 		Map<Node, Integer> sortedOrdering = ordering.entrySet()
@@ -30,9 +32,11 @@ public class TopoSort {
 	
 	public static int DFSTopo(Graph graph, Node s,  Set<Node> exploredNodes,  Map<Node, Integer> ordering, int curLabel) {
 		exploredNodes.add(s);
-		for(Node v : graph.getEdgesFrom(s)) {
-			if(!exploredNodes.contains(v)) {
-				curLabel=DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+		if(graph.getEdgesFrom(s) != null) {
+			for(Node v : graph.getEdgesFrom(s)) {
+				if(!exploredNodes.contains(v)) {
+					curLabel=DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+				}
 			}
 		}
 		ordering.put(s, curLabel);

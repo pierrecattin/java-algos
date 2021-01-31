@@ -15,7 +15,9 @@ import com.pierrecattin.algorithms.utilities.*;
 public class SccTest {
 	public static void main(String[] args) {		
 		Graph graph = InputReader.readGraph("res/SCC.txt", true);	
-		System.out.println(graph.nbNodes());
+		//System.out.println(graph.nbNodes());
+		//System.out.println(graph.getNodes().get(1));
+		//System.out.println(graph.getEdgesFrom(graph.getNodes().get(1)));
 		Map <Node, Integer> SCC = Kosaraju.kosaraju(graph);
 		System.out.println(componentSize(SCC));
 	}
@@ -33,7 +35,7 @@ public class SccTest {
 		expecteds.put(3, 4);
 		expecteds.put(4, 3);
 		for(Integer component:expecteds.keySet()) {
-			// Component names 2 and 3 could be reversed
+			// Component names 2 and 3 could be reversed, the answer would still be correct
 			//System.out.println("Component="+component+"  Expected="+expecteds.get(component)+"   actual="+componentSize.get(component));
 			assertEquals(expecteds.get(component), componentSize.get(component));
 		}	
