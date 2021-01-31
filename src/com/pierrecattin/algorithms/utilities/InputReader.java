@@ -18,7 +18,7 @@ import java.util.List;
 
 public class InputReader {
 
-	public ArrayList<Integer> readIntegerList(String path){
+	public static ArrayList<Integer> readIntegerList(String path){
 		ArrayList<Integer> inputList = new ArrayList<Integer>();	
 		try {
 			File inputFile = new File(path);
@@ -36,7 +36,7 @@ public class InputReader {
 
 	}
 	
-	public Graph readGraph(String path, boolean directed){
+	public static Graph readGraph(String path, boolean directed){
 		Graph graph = new Graph(directed);
 		try {
 			File inputFile = new File(path);
@@ -53,7 +53,6 @@ public class InputReader {
 					sourceNode =  new Node(sourceNodeName);
 					nodeNames.put(sourceNodeName, sourceNode);
 				}
-				
 				
 				while(colReader.hasNext()) {
 					String destinationNodeName = colReader.next();
