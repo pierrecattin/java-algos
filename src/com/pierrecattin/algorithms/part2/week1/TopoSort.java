@@ -1,5 +1,4 @@
 package com.pierrecattin.algorithms.part2.week1;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,7 +14,8 @@ public class TopoSort {
 		if(graph.getNodes() != null) {
 			for(Node v : graph.getNodes()) {
 				if(!exploredNodes.contains(v)) {
-					curLabel = DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+					MutableInteger stackDepth = new MutableInteger(0);
+					curLabel = DFSTopo(graph, v, exploredNodes, ordering, curLabel, stackDepth);
 				}
 			}
 		}
@@ -30,12 +30,17 @@ public class TopoSort {
 		return(sortedOrdering);
 	}
 	
-	public static int DFSTopo(Graph graph, Node s,  Set<Node> exploredNodes,  Map<Node, Integer> ordering, int curLabel) {
+	public static int DFSTopo(Graph graph, Node s,  Set<Node> exploredNodes,  Map<Node, Integer> ordering, int curLabel, MutableInteger stackDepth) {
+		stackDepth.value += 1;
+
+			//System.out.println("DFSTopo stack depth: "+stackDepth.value);
+
+		
 		exploredNodes.add(s);
 		if(graph.getEdgesFrom(s) != null) {
 			for(Node v : graph.getEdgesFrom(s)) {
 				if(!exploredNodes.contains(v)) {
-					curLabel=DFSTopo(graph, v, exploredNodes, ordering, curLabel);
+					curLabel=DFSTopo(graph, v, exploredNodes, ordering, curLabel, stackDepth);
 				}
 			}
 		}

@@ -19,7 +19,14 @@ public class SccTest {
 		//System.out.println(graph.getNodes().get(1));
 		//System.out.println(graph.getEdgesFrom(graph.getNodes().get(1)));
 		Map <Node, Integer> SCC = Kosaraju.kosaraju(graph);
-		System.out.println(componentSize(SCC));
+		System.out.println("Completed");
+		//System.out.println(SCC);
+		Map<Integer, Integer> componentSize = componentSize(SCC);
+		for(Integer component:componentSize.keySet()) {
+			System.out.println(componentSize.get(component));	
+		}
+		//434821,968,459,313,211
+
 	}
 	
 	@Test
