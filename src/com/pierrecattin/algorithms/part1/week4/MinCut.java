@@ -32,7 +32,7 @@ public class MinCut {
 	}
 
 	public static int minCut(Graph inputGraph) {
-		int nbIter = inputGraph.nbNodes()^2;
+		int nbIter = 30*inputGraph.nbNodes()^2;
 		int bestMinCut=singleRandomMinCut(inputGraph);
 		for(int i=0; i<nbIter-1; i++) {
 			int randomMinCut = singleRandomMinCut(inputGraph);
