@@ -38,11 +38,17 @@ public class SccTest {
 		//System.out.println(componentSize);
 		Map<Integer, Integer> expecteds = new HashMap<>();
 		expecteds.put(1, 3);
-		expecteds.put(2, 1);
-		expecteds.put(3, 4);
+		// Component names 2 and 3 could be reversed, the answer would still be correct
+		if(componentSize.get(2)==1) {
+			expecteds.put(2, 1);
+			expecteds.put(3, 4);
+		} else {
+			expecteds.put(3, 1);
+			expecteds.put(2, 4);
+		}
+		
 		expecteds.put(4, 3);
 		for(Integer component:expecteds.keySet()) {
-			// Component names 2 and 3 could be reversed, the answer would still be correct
 			//System.out.println("Component="+component+"  Expected="+expecteds.get(component)+"   actual="+componentSize.get(component));
 			assertEquals(expecteds.get(component), componentSize.get(component));
 		}	
