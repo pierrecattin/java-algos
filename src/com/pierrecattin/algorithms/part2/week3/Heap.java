@@ -1,35 +1,34 @@
 package com.pierrecattin.algorithms.part2.week3;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Heap {
 	private ArrayList<Integer> array;
-	
-	public Heap() {
-		array = new ArrayList<>();
+	private Type type;
+	public static enum Type{
+		MIN,
+		MAX
 	}
 	
-	
+	public Heap(Type type) {
+		array = new ArrayList<>();
+		this.type = type;
+	}
 	
 	public void insert(int x) {
 		array.add(x);	
 		int currentIndex = array.size()-1;
 		int parent = positionParent(currentIndex);
-		while(parent != -1 &&  x<array.get(parent)) {
-			System.out.println("\n"+array);
-			System.out.println("x="+x+"; index(x)="+currentIndex+"  parent="+array.get(parent)+"  index(parent)="+parent);
-			System.out.println("Swapping "+array.get(currentIndex)+" with "+array.get(parent));
+		while(parent != -1 &&  compare(x,array.get(parent))) {
 			Collections.swap(array, currentIndex, parent);
 			currentIndex=parent;
 			parent = positionParent(currentIndex);
-			//System.out.println("x="+x+"; index(x)="+currentIndex+"  parent="+array.get(parent)+"  index(parent)="+parent);
 		}
 	}
 	
-	public int extractMin() {
-		int min = getMin();
+	public int extractExtrema() {
+		int extrema = getExtrema();
 		Collections.swap(array, 0, array.size()-1);
 		array.remove(array.size()-1);	
 		
@@ -40,7 +39,7 @@ public class Heap {
 			boolean swapWithLeft=true;
 			if(leftChildPos==-1) {
 				swapWithLeft = false;
-			} else if (rightChildPos != -1 && array.get(rightChildPos)<array.get(leftChildPos)) {
+			} else if (rightChildPos != -1 && compare(array.get(rightChildPos),array.get(leftChildPos))) {
 				swapWithLeft = false;
 			}
 			
@@ -53,20 +52,28 @@ public class Heap {
 			}
 		}
 		
-		return(min);
+		return(extrema);
+	}
+	
+	private boolean compare(int a, int b) {
+		if(type==Type.MAX) {
+			return(a>b);
+		} else {
+			return(a<b);
+		}
 	}
 	
 	private boolean violation(int position) {
 		int leftChildPos = positionLeftChild(position);
 		int rightChildPos = positionRightChild(position);
 		
-		boolean violationLeft = leftChildPos != -1 && array.get(leftChildPos)<array.get(position);
-		boolean violationRight = rightChildPos != -1 && array.get(rightChildPos)<array.get(position);
+		boolean violationLeft = leftChildPos != -1 && compare(array.get(leftChildPos),array.get(position));
+		boolean violationRight = rightChildPos != -1 && compare(array.get(rightChildPos),array.get(position));
 		
 		return(violationLeft || violationRight);
 	}
 	
-	public int getMin() {
+	public int getExtrema() {
 		return(array.get(0));
 	}
 	
@@ -98,6 +105,4 @@ public class Heap {
 		}
 		return(child);
 	}
-	
-
 }
