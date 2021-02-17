@@ -1,6 +1,7 @@
 package com.pierrecattin.algorithms.part2.week3;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 public class Heap {
@@ -28,7 +29,45 @@ public class Heap {
 	}
 	
 	public int extractMin() {
-		return(0);
+		int min = getMin();
+		Collections.swap(array, 0, array.size()-1);
+		array.remove(array.size()-1);	
+		
+		int currentPos = 0;	
+		while(violation(currentPos)) {
+			int leftChildPos = positionLeftChild(currentPos);
+			int rightChildPos = positionRightChild(currentPos);
+			boolean swapWithLeft=true;
+			if(leftChildPos==-1) {
+				swapWithLeft = false;
+			} else if (rightChildPos != -1 && array.get(rightChildPos)<array.get(leftChildPos)) {
+				swapWithLeft = false;
+			}
+			
+			if(swapWithLeft) {
+				Collections.swap(array, currentPos, leftChildPos);
+				currentPos = leftChildPos;
+			} else {
+				Collections.swap(array, currentPos, rightChildPos);
+				currentPos = rightChildPos;
+			}
+		}
+		
+		return(min);
+	}
+	
+	private boolean violation(int position) {
+		int leftChildPos = positionLeftChild(position);
+		int rightChildPos = positionRightChild(position);
+		
+		boolean violationLeft = leftChildPos != -1 && array.get(leftChildPos)<array.get(position);
+		boolean violationRight = rightChildPos != -1 && array.get(rightChildPos)<array.get(position);
+		
+		return(violationLeft || violationRight);
+	}
+	
+	public int getMin() {
+		return(array.get(0));
 	}
 	
 	public String toString() {

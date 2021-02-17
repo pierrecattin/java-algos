@@ -15,10 +15,13 @@ public class HeapTest {
 		heap.insert(13);
 		heap.insert(7);
 		heap.insert(10);
-		System.out.println(heap);
+		//System.out.println(heap);
 		heap.insert(5);
 		System.out.println(heap);
-
+		
+		System.out.println(heap.extractMin());
+		System.out.println(heap);
+		
 	}
 
 }
