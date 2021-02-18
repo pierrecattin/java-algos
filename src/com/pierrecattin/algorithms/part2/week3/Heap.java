@@ -66,7 +66,6 @@ public class Heap {
 	private boolean violation(int position) {
 		int leftChildPos = positionLeftChild(position);
 		int rightChildPos = positionRightChild(position);
-		
 		boolean violationLeft = leftChildPos != -1 && compare(array.get(leftChildPos),array.get(position));
 		boolean violationRight = rightChildPos != -1 && compare(array.get(rightChildPos),array.get(position));
 		
@@ -82,27 +81,31 @@ public class Heap {
 	}
 	
 	private int positionParent(int position) {
-		int parent=-1;
-		if(position>=1) {
-			parent = (position-1)/2;
-		}
-		//System.out.println("positionParent: position="+position+" parent="+parent);
+		int parent = (position-1)/2; // -1 if no parent (position=0)
 		return(parent);
 	}
 	
 	private int positionLeftChild(int position) {
-		int child=-1;
-		if(2*position<=array.size()-1) {
-			child = 2*position+1;
+		int child = 2*position+1;
+		if(child>array.size()-1) {
+			child  = -1;
 		}
 		return(child);
 	}
 	
 	private int positionRightChild(int position) {
-		int child=-1;
-		if(2*position+1<=array.size()-1) {
-			child = 2*position+2;
+		int child=2*position+2;
+		if(child>array.size()-1) {
+			child  = -1;
 		}
 		return(child);
+	}
+	
+	public ArrayList<Integer> getArray() {
+		return(array);
+	}
+	
+	public int size() {
+		return(array.size());
 	}
 }
