@@ -2,9 +2,9 @@ package com.pierrecattin.algorithms.part2.week4;
 
 import java.util.ArrayList;
 
-public class HashTable<ValueType> {
+public class HashTable<KeyType, ValueType> {
 	private int nbBuckets;
-	private ArrayList<ArrayList<Integer>> keys;
+	private ArrayList<ArrayList<KeyType>> keys;
 	private ArrayList<ArrayList<ValueType>> values;
 	
 	public 
@@ -18,9 +18,9 @@ public class HashTable<ValueType> {
 		}
 	}
 	
-	public void put(int key, ValueType value) {
+	public void put(KeyType key, ValueType value) {
 		int keyHash = hash(key);
-		int posInBucket=keys.get(keyHash).indexOf(key);
+		int posInBucket = positionInBucket(key);
 		if(posInBucket==-1) {
 			// key not yet in HashTable
 			keys.get(keyHash).add(key);
@@ -31,17 +31,26 @@ public class HashTable<ValueType> {
 		}
 	}
 	
-	public ValueType get(int key) {
-		int keyHash = hash(key);
-		int posInBucket=keys.get(keyHash).indexOf(key);
+	public ValueType get(KeyType key) {
+		int posInBucket =positionInBucket(key);
 		if(posInBucket==-1) {
 			return(null);
 		} else {
-			return(values.get(keyHash).get(posInBucket));
+			return(values.get(hash(key)).get(posInBucket));
 		}
 	}
-
-	private int hash(int key) {
-		return((17+31*key)%nbBuckets);
+		
+	private int positionInBucket(KeyType key) {
+		return(keys.get(hash(key)).indexOf(key));
 	}
+	
+	public boolean containsKey(KeyType key) {
+		return(positionInBucket(key)!=-1);
+	}
+
+	private int hash(KeyType key) {
+		int keyNum = key.hashCode();
+		return(Math.abs((17+31*keyNum)%nbBuckets));
+	}
+
 }

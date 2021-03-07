@@ -35,6 +35,24 @@ public class InputReader {
 		return(inputList);
 
 	}
+	
+	public static ArrayList<Long> readLongList(String path){
+		ArrayList<Long> inputList = new ArrayList<Long>();	
+		try {
+			File inputFile = new File(path);
+			Scanner myReader = new Scanner(inputFile);
+			while (myReader.hasNext()) {
+				inputList.add(Long.parseLong(myReader.next()));
+
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+		return(inputList);
+
+	}
 
 
 	public static Graph readGraph(String path, boolean directed){
