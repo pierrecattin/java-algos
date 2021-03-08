@@ -142,5 +142,23 @@ public class InputReader {
 		}
 		return(graph);
 	}
+	
+	public static ArrayList<Job> readJobs(String path){
+		ArrayList<Job>  jobs = new ArrayList<>() ;	
+		try {
+			File inputFile = new File(path);
+			Scanner myReader = new Scanner(inputFile);
+			myReader.next();
+			while (myReader.hasNextInt()) {
+				jobs.add(new Job(myReader.nextInt(), myReader.nextInt()));
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+		return(jobs);
+
+	}
 
 }
