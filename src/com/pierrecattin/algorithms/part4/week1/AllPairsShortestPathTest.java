@@ -3,11 +3,13 @@ package com.pierrecattin.algorithms.part4.week1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
 import com.pierrecattin.algorithms.utilities.GraphWithLength;
 import com.pierrecattin.algorithms.utilities.InputReader;
+import com.pierrecattin.algorithms.utilities.Node;
 
 public class AllPairsShortestPathTest {
 
@@ -43,10 +45,28 @@ public class AllPairsShortestPathTest {
 		return(min);
 	}
 	
-	@Test 
+	
 	void test() {
-		GraphWithLength graph = InputReader.readGraphWithLength("res/edges.txt", false);	
-		assertEquals(0, 0);
-	}
+		GraphWithLength graph = new GraphWithLength(true);	
+		HashMap<String, Node> nodes = new HashMap<>();
+		
+		String[] nodeNames = {"s", "t", "u", "v", "w"};
+		for (String n:nodeNames) {
+			nodes.put(n, new Node(n));
+			graph.addNode(nodes.get(n));
+		}
+		
+		graph.addEdge(nodes.get("s"), nodes.get("v"), 4);
+		graph.addEdge(nodes.get("s"), nodes.get("u"), 2);
+		graph.addEdge(nodes.get("u"), nodes.get("w"), 2);
+		graph.addEdge(nodes.get("w"), nodes.get("t"), 2);
+		graph.addEdge(nodes.get("u"), nodes.get("v"), -1);
+		graph.addEdge(nodes.get("v"), nodes.get("t"), 4);
+		
+		//System.out.println(graph);
+		System.out.println(graph.getNodes());
+		ArrayList<ArrayList<Integer>> paths = AllPairsShortestPath.FloydWarshall(graph);
+		System.out.println(paths);
+		}
 
 }
