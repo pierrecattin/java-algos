@@ -57,6 +57,10 @@ public class UnionFind<T> {
 		countPerGroup.put(biggerGroup, sizeSmallerGroup+countPerGroup.get(biggerGroup));
 	}
 	
+	public int nbGroups() {
+		return(countPerGroup.size());
+	}
+	
 	public String toString() {
 		String out = "UnionFind with "+parents.size()+" items:\n";
 		for(T x : parents.keySet()) {

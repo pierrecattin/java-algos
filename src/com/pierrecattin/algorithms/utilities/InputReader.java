@@ -36,6 +36,25 @@ public class InputReader {
 
 	}
 	
+	public static ArrayList<String> readStringList(String path){
+		ArrayList<String> inputList = new ArrayList<String>();	
+		try {
+			File inputFile = new File(path);
+			Scanner myReader = new Scanner(inputFile).useDelimiter("\n");;
+			while (myReader.hasNext()) {
+				inputList.add(myReader.next());
+
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+		return(inputList);
+
+	}
+	
+	
 	public static ArrayList<Long> readLongList(String path){
 		ArrayList<Long> inputList = new ArrayList<Long>();	
 		try {
