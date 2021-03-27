@@ -8,7 +8,7 @@ import com.pierrecattin.algorithms.utilities.GraphWithLength;
 import com.pierrecattin.algorithms.utilities.Node;
 
 public class Kruskal {
-	public static int maxClusterDistance(GraphWithLength graph, int nbClusters) {
+	public static UnionFind<Node> singeLinkClustering(GraphWithLength graph, int nbClusters) {
 		UnionFind<Node> clusters = new UnionFind<>();
 		for(Node n:graph.getNodes()) {
 			clusters.add(n);
@@ -16,15 +16,17 @@ public class Kruskal {
 		
 		ArrayList<Edge> edges = new ArrayList<>();
 		for (Node source : graph.getNodes()) {
-			for (Entry<Node, Integer> destinationDistance : graph.getEdgesFrom(source).entrySet()) {
-				Edge e = new Edge(source, destinationDistance.getKey(), destinationDistance.getValue());
-				edges.add(e);
+			if( graph.getEdgesFrom(source)!=null) {
+				for (Entry<Node, Integer> destinationDistance : graph.getEdgesFrom(source).entrySet()) {
+					Edge e = new Edge(source, destinationDistance.getKey(), destinationDistance.getValue());
+					edges.add(e);
+				}
 			}
 		}
 				
 		Collections.sort(edges, 
                 (e1, e2) -> e1.getDistance() - e2.getDistance());
-		//System.out.println(edges);
+		System.out.println("Edge created");
 		
 		for (Edge e:edges) {
 			if(!clusters.sameGroup(e.getSource(), e.getDestination())) {
@@ -35,7 +37,7 @@ public class Kruskal {
 				
 			}
 		}
-		//System.out.println(clusters);
+		System.out.println("Clusters defined");
 		int maxDistance=Integer.MAX_VALUE;
 		for (Edge e:edges) {
 			if(!clusters.sameGroup(e.getSource(), e.getDestination())) {
@@ -44,8 +46,9 @@ public class Kruskal {
 				}
 			}
 		}
+		System.out.println("Min distance between two nodes of different clusters: "+maxDistance);
 		
-		return(maxDistance);
+		return(clusters);
 	}
 
 
