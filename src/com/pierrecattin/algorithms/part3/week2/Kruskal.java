@@ -26,7 +26,9 @@ public class Kruskal {
 				
 		Collections.sort(edges, 
                 (e1, e2) -> e1.getDistance() - e2.getDistance());
-		System.out.println("Edge created");
+		System.out.println("Edges created");
+		//System.out.println(edges);
+		
 		
 		for (Edge e:edges) {
 			if(!clusters.sameGroup(e.getSource(), e.getDestination())) {

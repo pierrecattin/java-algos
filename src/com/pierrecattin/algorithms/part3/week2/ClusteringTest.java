@@ -11,13 +11,16 @@ import com.pierrecattin.algorithms.utilities.*;
 public class ClusteringTest {
 
 	public static void main(String[] args) {
-		/*GraphWithLength graph = InputReader.readGraphWithLength("res/clustering1.txt", false);
-		Kruskal.singeLinkClustering(graph,4);*/
+		GraphWithLength graph = InputReader.readGraphWithLength("res/clustering1.txt", false);
+		Kruskal.singeLinkClustering(graph,4);
 		
 		ArrayList<String> input = InputReader.readStringList("res/clustering_big.txt");
 		System.out.println("Input read");
 		GraphWithLength bigGraph= BigClustering.createGraph(input);
-		System.out.println(Kruskal.singeLinkClustering(bigGraph, Integer.MAX_VALUE).nbGroups());
+		//System.out.println(bigGraph);
+		
+		UnionFind<Node> cluster = Kruskal.singeLinkClustering(bigGraph, 1);
+		System.out.println("Nb clusters: "+ cluster.nbGroups());
 	}
 	
 	@Test
