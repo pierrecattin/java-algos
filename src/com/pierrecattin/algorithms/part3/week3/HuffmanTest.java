@@ -17,10 +17,22 @@ public class HuffmanTest {
 		for(int i=0; i<symbolWeights.size(); i++) {
 			symbols.put(String.valueOf(i), symbolWeights.get(i));
 		}
-		
-		
 		HuffmanEncoder encoder=new HuffmanEncoder(symbols);
-		System.out.println(encoder.getTree());
+		int maxLength=Integer.MIN_VALUE;
+		int minLength = Integer.MAX_VALUE;
+		for(String s:symbols.keySet()) {
+			ArrayList<Boolean> encoding = encoder.encode(s);
+			int l = encoding.size();
+			if(l>maxLength) {
+				maxLength=l;
+			}
+			if(l<minLength) {
+				minLength=l;
+			}
+		}
+		
+		System.out.println("Max length="+maxLength);
+		System.out.println("Min length="+minLength);
 	}
 	
 	@Test
