@@ -1,7 +1,12 @@
 package com.pierrecattin.algorithms.part3.week3;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.junit.jupiter.api.Test;
+
 import com.pierrecattin.algorithms.utilities.InputReader;
 
 public class HuffmanTest {
@@ -14,10 +19,27 @@ public class HuffmanTest {
 		}
 		
 		
-		HuffmanEncoding encoding=new HuffmanEncoding(symbols);
-		System.out.println(encoding.getTree());
+		HuffmanEncoder encoder=new HuffmanEncoder(symbols);
+		System.out.println(encoder.getTree());
+	}
+	
+	@Test
+	void huffmanTest() {
+		HashMap<String, Integer> symbols= new HashMap<>();
+		symbols.put("a", 10);
+		symbols.put("b", 20);
+		symbols.put("c", 3);
+		symbols.put("d", 40);
+		symbols.put("e", 10);
+		HuffmanEncoder encoder = new HuffmanEncoder(symbols);
+		//System.out.println(encoder.getTree());
+		//ArrayList<Boolean> encoding = encoder.encode("b");
+		//System.out.println(encoding);
+		//System.out.println(encoder.decode(encoding));
+		for(String s:symbols.keySet()) {
+			assertEquals(s,encoder.decode(encoder.encode(s)));
+		}
 		
-
 	}
 
 }

@@ -1,28 +1,27 @@
 package com.pierrecattin.algorithms.part3.week3;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.pierrecattin.algorithms.utilities.Graph;
+import com.pierrecattin.algorithms.utilities.BinaryTree;
 import com.pierrecattin.algorithms.utilities.Node;
 
 
-public class HuffmanEncoding {
-	private Graph tree;
-	//private HashMap<String, Node> endNodeNames;
+public class HuffmanEncoder {
+	private BinaryTree tree;
 	private HashMap<Node, Long> rootNodesWeights;
-	private Node root;
+	private HashMap<String, Node> symbolToNodes;
 	
-	HuffmanEncoding(HashMap<String, Integer> symbols) {
-		tree = new Graph(true);
-		//endNodeNames= new HashMap<>();
+	HuffmanEncoder(HashMap<String, Integer> symbols) {
+		tree = new BinaryTree();
 		rootNodesWeights = new HashMap<>();
-		
+		symbolToNodes = new HashMap<>();
 		
 		for (Entry<String, Integer> symbol:symbols.entrySet()) {
 			Node n = new Node(symbol.getKey());
-			//endNodeNames.put(symbol.getKey(), n);
 			rootNodesWeights.put(n,Long.valueOf(symbol.getValue()));
+			symbolToNodes.put(symbol.getKey(), n);
 		}
 		
 		
@@ -34,21 +33,53 @@ public class HuffmanEncoding {
 			weightsSum += rootNodesWeights.get(minNode2); 
 			
 			rootNodesWeights.remove(minNode2);
-			root = new Node(minNode1.getName()+"'");
+			Node localRoot = new Node(minNode1.getName()+"'");
 			
 			
-			tree.addNode(minNode1);
-			tree.addNode(minNode2);
-			tree.addNode(root);
-			tree.addEdge(root, minNode1);
-			tree.addEdge(root, minNode2);
-			rootNodesWeights.put(root, weightsSum);	
+			tree.addEdge(localRoot , minNode1, true);
+			tree.addEdge(localRoot , minNode2, false);
+			rootNodesWeights.put(localRoot , weightsSum);	
 		}
 	}
 	
-	public Graph getTree() {
+	public BinaryTree getTree() {
 		return(tree);
 	}
+	
+	public ArrayList<Boolean> encode(String symbol) {
+		Node curChild = symbolToNodes.get(symbol);
+		if(curChild==null) {
+			return(null);
+		}
+		ArrayList<Boolean>  encoding= new ArrayList<>();
+		Node curParent = tree.getParent(curChild);
+		while(curParent != null) {
+			if(tree.isLeftChild(curChild)) {
+				encoding.add(0, true); 
+			} else {
+				encoding.add(0, false);
+			}
+			curChild=curParent;
+			curParent=tree.getParent(curParent);
+			
+		}
+		return(encoding);
+	}
+	
+	public String decode(ArrayList<Boolean> encoding) {
+		Node currentNode=tree.getRoot();
+		for(boolean bit:encoding) {
+			currentNode=tree.getChild(currentNode, bit); // true means left child
+			if(currentNode==null) {
+				return(null);
+			}
+		}
+		if(!tree.isTerminal(currentNode)) {
+			return(null);
+		}
+		return(currentNode.getName());	
+	}
+	
 	
 	/*public int depth() {
 		HashMap<Node, Boolean> visitedNodes = new HashMap<>();
@@ -84,7 +115,7 @@ public class HuffmanEncoding {
 			if(minNode==null) {
 				minNode=e.getKey();
 				minWeight=e.getValue();
-			} else if (minWeight<e.getValue()) {
+			} else if (minWeight>e.getValue()) {
 				minNode=e.getKey();
 				minWeight=e.getValue();
 			}
