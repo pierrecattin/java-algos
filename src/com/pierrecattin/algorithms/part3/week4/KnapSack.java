@@ -3,18 +3,18 @@ package com.pierrecattin.algorithms.part3.week4;
 import java.util.ArrayList;
 
 public class KnapSack {
-	private Integer size;
+	private Integer capacity;
 	private ArrayList<Long> values;
-	private ArrayList<Long> weights;
+	private ArrayList<Long> sizes;
 	private Integer nbItems;
 	
-	public KnapSack(int size, ArrayList<Long> values,ArrayList<Long> weights) {
-		assert(values.size()==weights.size());
+	public KnapSack(int capacity, ArrayList<Long> values,ArrayList<Long> sizes) {
+		assert(values.size()==sizes.size());
 		this.nbItems=values.size();
 
-		this.size=size;
+		this.capacity=capacity;
 		this.values=values;
-		this.weights=weights;
+		this.sizes=sizes;
 	}
 	
 	
@@ -22,13 +22,22 @@ public class KnapSack {
 	
 	
 	public long solveForValue() {
-		Scores scores = new Scores(size, nbItems);
+		Scores scores = new Scores(capacity, nbItems);
 		
-		return(scores.getScore(nbItems-1, size));
+		for(int lastItem=0; lastItem<nbItems; lastItem++) {
+			for (int cap=1; cap<=capacity; cap++) {
+				if(sizes.get(lastItem)>cap) {
+					
+				}
+				
+			}
+		}
+		
+		return(scores.getScore(nbItems-1, capacity));
 	}
 	
 	public String toString() {
-		return(size+"\n"+values+"\n\n"+weights);
+		return(capacity+"\n"+values+"\n\n"+sizes);
 	}
 	
 	private class Scores{
@@ -37,8 +46,8 @@ public class KnapSack {
 		private Integer[] lastItems ;
 		private Integer nbEntries;
 		
-		Scores(int size, int nbItems){
-			nbEntries=(size+1)*(nbItems+1);
+		Scores(int capacity, int nbItems){
+			nbEntries=(capacity+1)*(nbItems+1);
 			
 			capacities = new Integer[nbEntries];
 			lastItems = new Integer[nbEntries];
@@ -47,7 +56,7 @@ public class KnapSack {
 			// initialization and base cases
 			int rowNum=0;
 			for(int lastItem=-1; lastItem<nbItems; lastItem++) {
-				for (int cap=0; cap<=size; cap++) {
+				for (int cap=0; cap<=capacity; cap++) {
 					lastItems[rowNum] = lastItem;
 					capacities[rowNum] = cap;
 					if(lastItem== -1| cap==0) {
@@ -58,16 +67,16 @@ public class KnapSack {
 			}
 		}
 		
-		public void setSCore(int lastItem, int capacity, long score) {
-			int rowNum=getRowNum(lastItem, capacity);
+		public void setSCore(int lastItem, int cap, long score) {
+			int rowNum=getRowNum(lastItem, cap);
 			if(rowNum!=-1) {
 				scores[rowNum]=score;
 			}
 		}
 		
 
-		public Long getScore(int lastItem, int capacity) {
-			int rowNum=getRowNum(lastItem, capacity);
+		public Long getScore(int lastItem, int cap) {
+			int rowNum=getRowNum(lastItem, cap);
 			if(rowNum==-1) {
 				return(Long.valueOf(-1)); 
 			} else {
@@ -79,9 +88,9 @@ public class KnapSack {
 			}
 		}
 
-		private int getRowNum(int lastItem, int capacity) {
+		private int getRowNum(int lastItem, int cap) {
 			for(int i=0;i<=nbEntries;i++) {
-				if(lastItems[i] == lastItem && capacities[i] == capacity) {
+				if(lastItems[i] == lastItem && capacities[i] == cap) {
 					return(i);
 				}
 			}
