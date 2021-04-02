@@ -7,13 +7,13 @@ import java.util.Scanner;
 
 public class KnapSackReader {
 	public static KnapSack read(String path) {
-		Long size=null;
+		Integer size=null;
 		ArrayList<Long> values=new ArrayList<>();
 		ArrayList<Long> weights=new ArrayList<>();
 		try {
 			File inputFile = new File(path);
 			Scanner myReader = new Scanner(inputFile);
-			size=myReader.nextLong();
+			size=myReader.nextInt();
 			myReader.nextLong();
 			while (myReader.hasNextLong()) {
 				values.add(myReader.nextLong());
