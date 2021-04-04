@@ -8,6 +8,7 @@ public class KnapSack {
 	private ArrayList<Integer> values;
 	private ArrayList<Integer> sizes;
 	private Integer nbItems;
+	private Scores scores;
 	
 	public KnapSack(int capacity, ArrayList<Integer> values,ArrayList<Integer> sizes) {
 		assert(values.size()==sizes.size());
@@ -16,11 +17,11 @@ public class KnapSack {
 		this.capacity=capacity;
 		this.values=values;
 		this.sizes=sizes;
+		
+		scores = new Scores(capacity, nbItems);
 	}
 	
-	public long solveForValue() {
-		Scores scores = new Scores(capacity, nbItems);
-		
+	public long solveIteratively() {		
 		for(int lastItem=0; lastItem<nbItems; lastItem++) {
 			for (int cap=1; cap<=capacity; cap++) {
 				long best;
@@ -40,10 +41,37 @@ public class KnapSack {
 		return(scores.getScore(nbItems-1, capacity));
 	}
 	
+	public long solveRecursively(int lastItem, int cap) {
+		if(scores.getScore(lastItem, cap)==-1) {
+			long best;
+			if(sizes.get(lastItem)>cap) {
+				// if current item is larger than capacity
+				solveRecursively(lastItem-1, cap);
+				best=scores.getScore(lastItem-1, cap);
+			} else {
+				solveRecursively(lastItem-1, cap);
+				solveRecursively(lastItem-1, cap-sizes.get(lastItem));
+				best = Math.max(
+						scores.getScore(lastItem-1, cap),
+						scores.getScore(lastItem-1, cap-sizes.get(lastItem))+Long.valueOf(values.get(lastItem))
+						);	
+			}
+			scores.setSCore(lastItem, cap, best);
+		}
+		return(scores.getScore(lastItem, cap));
+	}
+	
 	public String toString() {
 		return(capacity+"\n"+values+"\n\n"+sizes);
 	}
 	
+	public int getNbItems() {
+		return(nbItems);
+	}
+
+	public int getCapacity() {
+		return(capacity);
+	}
 	private class Scores{
 		private HashMap<Integer, HashMap<Integer, Long>> scoresMap;
 		Scores(int capacity, int nbItems){	
