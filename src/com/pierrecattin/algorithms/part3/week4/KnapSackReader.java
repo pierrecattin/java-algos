@@ -8,16 +8,16 @@ import java.util.Scanner;
 public class KnapSackReader {
 	public static KnapSack read(String path) {
 		Integer size=null;
-		ArrayList<Long> values=new ArrayList<>();
-		ArrayList<Long> weights=new ArrayList<>();
+		ArrayList<Integer> values=new ArrayList<>();
+		ArrayList<Integer> weights=new ArrayList<>();
 		try {
 			File inputFile = new File(path);
 			Scanner myReader = new Scanner(inputFile);
 			size=myReader.nextInt();
 			myReader.nextLong();
-			while (myReader.hasNextLong()) {
-				values.add(myReader.nextLong());
-				weights.add(myReader.nextLong());
+			while (myReader.hasNextInt()) {
+				values.add(myReader.nextInt());
+				weights.add(myReader.nextInt());
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {

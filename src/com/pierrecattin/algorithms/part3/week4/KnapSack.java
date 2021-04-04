@@ -1,14 +1,15 @@
 package com.pierrecattin.algorithms.part3.week4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class KnapSack {
 	private Integer capacity;
-	private ArrayList<Long> values;
-	private ArrayList<Long> sizes;
+	private ArrayList<Integer> values;
+	private ArrayList<Integer> sizes;
 	private Integer nbItems;
 	
-	public KnapSack(int capacity, ArrayList<Long> values,ArrayList<Long> sizes) {
+	public KnapSack(int capacity, ArrayList<Integer> values,ArrayList<Integer> sizes) {
 		assert(values.size()==sizes.size());
 		this.nbItems=values.size();
 
@@ -17,19 +18,22 @@ public class KnapSack {
 		this.sizes=sizes;
 	}
 	
-	
-	
-	
-	
 	public long solveForValue() {
 		Scores scores = new Scores(capacity, nbItems);
 		
 		for(int lastItem=0; lastItem<nbItems; lastItem++) {
 			for (int cap=1; cap<=capacity; cap++) {
+				long best;
 				if(sizes.get(lastItem)>cap) {
-					
+					// if current item is larger than capacity
+					best=scores.getScore(lastItem-1, cap);
+				} else {
+					best = Math.max(
+							scores.getScore(lastItem-1, cap),
+							scores.getScore(lastItem-1, cap-sizes.get(lastItem))+Long.valueOf(values.get(lastItem))
+							);	
 				}
-				
+				scores.setSCore(lastItem, cap, best);
 			}
 		}
 		
@@ -41,60 +45,36 @@ public class KnapSack {
 	}
 	
 	private class Scores{
-		private Long[] scores ;
-		private Integer[] capacities;
-		private Integer[] lastItems ;
-		private Integer nbEntries;
-		
-		Scores(int capacity, int nbItems){
-			nbEntries=(capacity+1)*(nbItems+1);
-			
-			capacities = new Integer[nbEntries];
-			lastItems = new Integer[nbEntries];
-			scores = new Long[nbEntries];
+		private HashMap<Integer, HashMap<Integer, Long>> scoresMap;
+		Scores(int capacity, int nbItems){	
+			scoresMap = new HashMap<>();
 			
 			// initialization and base cases
-			int rowNum=0;
 			for(int lastItem=-1; lastItem<nbItems; lastItem++) {
-				for (int cap=0; cap<=capacity; cap++) {
-					lastItems[rowNum] = lastItem;
-					capacities[rowNum] = cap;
-					if(lastItem== -1| cap==0) {
-						scores[rowNum]=Long.valueOf(0); //base case
-					} 
-					rowNum++;
-				}
+				scoresMap.put(lastItem, new HashMap<>());
+				scoresMap.get(lastItem).put(0, Long.valueOf(0)); //base case
+			}
+			
+			for(int cap=0; cap<=capacity; cap++) {
+				scoresMap.get(-1).put(cap, Long.valueOf(0)); //base case
 			}
 		}
 		
-		public void setSCore(int lastItem, int cap, long score) {
-			int rowNum=getRowNum(lastItem, cap);
-			if(rowNum!=-1) {
-				scores[rowNum]=score;
-			}
+		public void setSCore(int lastItem, int cap, long score) {			
+			scoresMap.get(lastItem).put(cap, score);
 		}
 		
 
 		public Long getScore(int lastItem, int cap) {
-			int rowNum=getRowNum(lastItem, cap);
-			if(rowNum==-1) {
+			if(!scoresMap.containsKey(lastItem)) {
 				return(Long.valueOf(-1)); 
-			} else {
-				if(scores[rowNum]==null) {
-					return(Long.valueOf(-1)); 
-				} else {
-					return(scores[rowNum]);
-				}
 			}
-		}
+			
+			if(!scoresMap.get(lastItem).containsKey(cap)) {
+				return(Long.valueOf(-1)); 
+			}
 
-		private int getRowNum(int lastItem, int cap) {
-			for(int i=0;i<=nbEntries;i++) {
-				if(lastItems[i] == lastItem && capacities[i] == cap) {
-					return(i);
-				}
-			}
-			return(-1);
+			return(scoresMap.get(lastItem).get(cap));
 		}
 	}
 
