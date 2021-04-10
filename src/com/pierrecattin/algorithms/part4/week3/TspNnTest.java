@@ -4,8 +4,7 @@ public class TspNnTest {
 
 	public static void main(String[] args) {
 		City[] cities = CitiesReader.read("res/nn.txt");
-		//System.out.println(cities[5]);
-
+		TspNnSolver solver = new TspNnSolver(cities);
+		System.out.println(solver.solve());
 	}
-
 }
